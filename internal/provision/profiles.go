@@ -154,7 +154,7 @@ func createDescriptor(name string, devObj models.DeviceObject) (*models.ValueDes
 		return nil, err
 	}
 
-	if err = common.VerifyIdFormat(id, "Value Descriptor"); err != nil {
+	if err = common.VerifyUuidFormat(id, "Value Descriptor"); err != nil {
 		return nil, err
 	}
 

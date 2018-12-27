@@ -32,7 +32,7 @@ func BuildAddr(host string, port string) string {
 }
 
 func CommandValueToReading(cv *ds_models.CommandValue, devName string) *models.Reading {
-	reading := &models.Reading{Name: cv.RO.Parameter, Device: devName}
+	reading := &models.Reading{Name: cv.RO.Parameter, Device: devName, Type: cv.Type, Unit: cv.Unit}
 	reading.Value = cv.ValueToString()
 
 	// if value has a non-zero Origin, use it
