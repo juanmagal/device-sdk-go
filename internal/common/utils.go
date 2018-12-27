@@ -10,13 +10,14 @@ package common
 import (
 	"bytes"
 	"fmt"
+	"github.com/google/uuid"
+	"github.com/globalsign/mgo/bson"
 	"net/http"
 	"time"
 
 	ds_models "github.com/edgexfoundry/device-sdk-go/pkg/models"
 	"github.com/edgexfoundry/edgex-go/pkg/clients/types"
 	"github.com/edgexfoundry/edgex-go/pkg/models"
-	"github.com/globalsign/mgo/bson"
 )
 
 func BuildAddr(host string, port string) string {
@@ -225,7 +226,7 @@ func MakeAddressable(name string, addr *models.Addressable) (*models.Addressable
 				LoggingClient.Error(fmt.Sprintf("Add Addressable failed %v, error: %v", addr, err))
 				return nil, err
 			}
-			if err = VerifyIdFormat(id, "Addressable"); err != nil {
+			if err = VerifyUuidFormat(id, "Addressable"); err != nil {
 				return nil, err
 			}
 			addressable.Id = id
@@ -240,8 +241,20 @@ func MakeAddressable(name string, addr *models.Addressable) (*models.Addressable
 	return &addressable, nil
 }
 
+
 func VerifyIdFormat(id string, objName string) error {
 	if len(id) != 24 || !bson.IsObjectIdHex(id) {
+		errMsg := fmt.Sprintf("Add %s returned invalid Id: %s", objName, id)
+		LoggingClient.Error(errMsg)
+		return fmt.Errorf(errMsg)
+	}
+	return nil
+}
+
+
+func VerifyUuidFormat(id string, objName string) error {
+	_, err := uuid.Parse(id)
+	if err != nil {
 		errMsg := fmt.Sprintf("Add %s returned invalid Id: %s", objName, id)
 		LoggingClient.Error(errMsg)
 		return fmt.Errorf(errMsg)
