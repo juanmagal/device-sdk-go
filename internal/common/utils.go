@@ -226,6 +226,7 @@ func MakeAddressable(name string, addr *models.Addressable) (*models.Addressable
 				return nil, err
 			}
 			if err = VerifyUuidFormat(id, "Addressable"); err != nil {
+				LoggingClient.Error(fmt.Sprintf("Add Addressable failed %v, error: %v", addr, err))
 				return nil, err
 			}
 			addressable.Id = id
