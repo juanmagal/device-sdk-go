@@ -14,7 +14,6 @@ import (
 	"github.com/globalsign/mgo/bson"
 	"net/http"
 	"time"
-
 	ds_models "github.com/edgexfoundry/device-sdk-go/pkg/models"
 	"github.com/edgexfoundry/edgex-go/pkg/clients/types"
 	"github.com/edgexfoundry/edgex-go/pkg/models"
@@ -255,7 +254,7 @@ func VerifyIdFormat(id string, objName string) error {
 func VerifyUuidFormat(id string, objName string) error {
 	_, err := uuid.Parse(id)
 	if err != nil {
-		errMsg := fmt.Sprintf("Add %s returned invalid Id: %s", objName, id)
+		errMsg := fmt.Sprintf("Add %s returned invalid Uuid: %s, %s", objName, id, err.Error())
 		LoggingClient.Error(errMsg)
 		return fmt.Errorf(errMsg)
 	}
