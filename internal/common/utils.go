@@ -243,8 +243,8 @@ func MakeAddressable(name string, addr *models.Addressable) (*models.Addressable
 
 
 func VerifyIdFormat(id string, objName string) error {
-	if len(id) != 24 || !bson.IsObjectIdHex(id) {
-		errMsg := fmt.Sprintf("Add %s returned invalid Id: %s", objName, id)
+	if len(id) == 0 {
+		errMsg := fmt.Sprintf("The Id of %s is empty string", objName)
 		LoggingClient.Error(errMsg)
 		return fmt.Errorf(errMsg)
 	}
