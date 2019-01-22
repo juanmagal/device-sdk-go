@@ -11,7 +11,6 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/google/uuid"
-	"github.com/globalsign/mgo/bson"
 	"net/http"
 	"time"
 	ds_models "github.com/edgexfoundry/device-sdk-go/pkg/models"
