@@ -26,7 +26,7 @@ import (
 	"github.com/edgexfoundry/device-sdk-go/internal/provision"
 	"github.com/edgexfoundry/device-sdk-go/internal/scheduler"
 	ds_models "github.com/edgexfoundry/device-sdk-go/pkg/models"
-	"github.com/edgexfoundry/edgex-go/pkg/clients/types"
+//	"github.com/edgexfoundry/edgex-go/pkg/clients/types"
 	"github.com/edgexfoundry/edgex-go/pkg/models"
 	"github.com/google/uuid"
 )
@@ -129,13 +129,13 @@ func selfRegister() error {
 	ds, err := common.DeviceServiceClient.DeviceServiceForName(common.ServiceName, ctx)
 
 	if err != nil {
-		if errsc, ok := err.(*types.ErrServiceClient); ok && (errsc.StatusCode == http.StatusNotFound) {
+	//	if errsc, ok := err.(*types.ErrServiceClient); ok && (errsc.StatusCode == http.StatusNotFound) {
 			common.LoggingClient.Info(fmt.Sprintf("Device Service %s doesn't exist, creating a new one", ds.Name))
 			ds, err = createNewDeviceService()
-		} else {
-			common.LoggingClient.Error(fmt.Sprintf("DeviceServicForName failed: %v", err))
-			return err
-		}
+	//	} else {
+	//		common.LoggingClient.Error(fmt.Sprintf("DeviceServicForName failed: %v", err))
+	//		return err
+	//	}
 	} else {
 		common.LoggingClient.Info(fmt.Sprintf("Device Service %s exists", ds.Name))
 	}
@@ -187,7 +187,7 @@ func makeNewAddressable() (*models.Addressable, error) {
 	ctx := context.WithValue(context.Background(), common.CorrelationHeader, uuid.New().String())
 	addr, err := common.AddressableClient.AddressableForName(common.ServiceName, ctx)
 	if err != nil {
-		if errsc, ok := err.(*types.ErrServiceClient); ok && (errsc.StatusCode == http.StatusNotFound) {
+		//if errsc, ok := err.(*types.ErrServiceClient); ok && (errsc.StatusCode == http.StatusNotFound) {
 			common.LoggingClient.Info(fmt.Sprintf("Addressable %s doesn't exist, creating a new one", common.ServiceName))
 			millis := time.Now().UnixNano() / int64(time.Millisecond)
 			addr = models.Addressable{
@@ -210,10 +210,10 @@ func makeNewAddressable() (*models.Addressable, error) {
 				return nil, err
 			}
 			addr.Id = id
-		} else {
-			common.LoggingClient.Error(fmt.Sprintf("AddressableForName failed: %v", err))
-			return nil, err
-		}
+		//} else {
+		//	common.LoggingClient.Error(fmt.Sprintf("AddressableForName failed: %v", err))
+		//	return nil, err
+		//}
 	} else {
 		common.LoggingClient.Info(fmt.Sprintf("Addressable %s exists", common.ServiceName))
 	}
